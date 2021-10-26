@@ -1,0 +1,189 @@
+# RegEx
+
+import re
+
+text = "Hi, my email address is something@anything.com"
+
+x = """abcedefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+some.one@gmail.com
+anything123@gmail.com
+9354-328-885
+9354.328.885
+Mr. Someone
+Mr. Anything"""
+
+fo = open('regularsome.txt', 'r')
+x = fo.read()
+fo.close()
+
+print(x)
+
+print("Hello\nWorld")        # \n Excape Character
+
+print(r'Hello\nWorld')       #Raw String Literal
+
+# Returns a list containing all matches
+xr = re.findall(r'[\w|\.]*@gmail.com', x)    #Raw String
+print(xr)
+
+### Metacharacters
+Metacharacters are characters with a special meaning:
+
+# []	A set of characters	"[a-m]"	
+# \	Signals a special sequence (can also be used to escape special characters)	"\d"	
+# .	Any character (except newline character)	"he..o"	
+# ^	Starts with	"^hello"	
+# $	Ends with	"planet$"	
+# |	Either or	"falls|stays"	
+# ()	Capture and group
+
+# Quantifiers
+# *	Zero or more occurrences	"he.*o"	
+# +	One or more occurrences	"he.+o"	
+# ?	Zero or one occurrences	"he.?o"	
+# {}	Exactly the specified number of occurrences	"he{2}o"	
+# {3,4}	Specified Range of occurrences
+
+### Special Sequences
+A special sequence is a \ followed by one of the characters in the list below, and has a special meaning:
+
+# \A	Returns a match if the specified characters are at the beginning of the string	"\AThe"	
+# \b	Returns a match where the specified characters are at the beginning or at the end of a word
+# (the "r" in the beginning is making sure that the string is being treated as a "raw string")	r"\bain" r"ain\b"	
+# \B	Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word
+# (the "r" in the beginning is making sure that the string is being treated as a "raw string")	r"\Bain" r"ain\B"	
+# \d	Returns a match where the string contains digits (numbers from 0-9)	"\d"	
+# \D	Returns a match where the string DOES NOT contain digits	"\D"	
+# \s	Returns a match where the string contains a white space character	"\s"	
+# \S	Returns a match where the string DOES NOT contain a white space character	"\S"	
+# \w	Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, 
+# and the underscore _ character)	"\w"	
+# \W	Returns a match where the string DOES NOT contain any word characters	"\W"	
+# \Z	Returns a match if the specified characters are at the end of the string	"Spain\Z"
+
+### Sets
+A set is a set of characters inside a pair of square brackets [] with a special meaning:
+
+# [arn]	Returns a match where one of the specified characters (a, r, or n) are present	
+# [a-n]	Returns a match for any lower case character, alphabetically between a and n	
+# [^arn]	Returns a match for any character EXCEPT a, r, and n	
+# [0123]	Returns a match where any of the specified digits (0, 1, 2, or 3) are present	
+# [0-9]	Returns a match for any digit between 0 and 9	
+# [0-5][0-9]	Returns a match for any two-digit numbers from 00 and 59	
+# [a-zA-Z]	Returns a match for any character alphabetically between a and z, lower case OR upper case	
+# [+]	In sets, +, *, ., |, (), $,{} has no special meaning, so [+] means: return a match for any + character in the string
+
+### Methods in re
+- re.match - return match object if pattern is found in the beginning of the string , else returns None
+- re.search - return match object for first occurence of the pattern in the string else returns None.
+- re.findall - returns a list of all the matches else returns empty list
+- re.split - returns a list of strings splitted from the given pattern/separator
+- re.sub - substitute the pattern in the string
+- re.finditer - Creates an iterator on the matches.
+
+x = """abcedefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+some.one@gmail.com
+anything123@gmail.com
+9354-328-885
+9354.328.885
+Mr. Someone
+Mr. Anything"""
+print(x)
+
+res = re.match(r'[a-z][a-z]', x)
+print(res)
+
+res = re.search(r'[#]|[!]', x)
+print(res)
+
+res = re.match(r'[a-z][a-z]', x)
+print(res.span())
+
+We use group() method to get all the matches and captured groups. 
+The groups contain the matched values.
+In particular:
+- match.group(0) always returns the fully matched string
+- match.group(1) match.group(2), ... return the capture groups in order from left to right in the input string
+- match.group() is equivalent to match.group(0)
+
+res = re.search(r'[A-Z][a-z]', x)
+print(res)
+
+regex = r"([a-zA-Z]+) (\d{2}) (\d{4})"      # r"([a-zA-Z]+) (\d+)"
+string = "I was born on June 24 2012"
+s = re.search(regex, string)
+print(s)
+
+# So this will print "June 24"
+print ("Full match: %s" % (s.group()))
+  
+# So this will print "June"
+print ("Month: %s" % (s.group(1)))
+  
+# So this will print "24"
+print ("Day: %s" % (s.group(2)))
+
+# So this will print "2012"
+print ("year: %s" % (s.group(3)))
+
+res1 = re.search(r'Mr\.', x)
+print(res1)
+
+res1 = re.search(r'Mrs?\. [a-zA-Z]+', x)
+print(res1)
+
+res = re.findall(r'Mrs?\. [a-zA-Z]+', x)
+print(res)
+
+print(x)
+
+res = re.findall(r'[a-z][a-z]', x)
+print(res)
+
+res = re.finditer(r'[a-z][a-z]', x)
+print(res)
+for i in res:
+    print(i.span())
+    print(i.group())
+
+res = re.finditer(r'Mrs?\. [a-zA-Z]+', x)
+print(res)
+for i in res:
+    print(i.span())
+    print(i.group())
+    print()
+
+res = re.findall(r'Mrs?\. [a-zA-Z]+', x)
+print(res)
+
+string = "I was born on June 24 2012"
+res2 = re.split(r' ', string)      # white space is separator/splitter/delimiter
+print(res2)
+
+string = "I was born on June 24 2012"
+res = re.sub(r'[A-Z][a-zA-Z]{3}', 'July', string, 1)
+print(res)
+
+
+
+# Doubt
+
+import numpy as np
+
+a = np.array([[1,2,3,4],
+             [5,6,7,8]])
+
+a[1]
+
+l = [[1,2,3,4],[5,6,7,8]]
+
+for i in a:
+    for j in i:
+        if j == 0:
+            print("Zero is there...")
+    break
+else:
+    print("There are no zeroes")
+
